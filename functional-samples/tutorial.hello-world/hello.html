@@ -1,6 +1,123 @@
-<html>
-  <body>
-    <h1>Hello Extensions</h1>
-    <script src="popup.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Risk Scanner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 280px;
+      margin: 0;
+      padding: 15px;
+      background: #f9fafb;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .flags {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .flag {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.2s, border 0.2s;
+    }
+
+    .flag:hover {
+      transform: scale(1.1);
+      border-color: #999;
+    }
+
+    #flag-red { background: #e74c3c; }
+    #flag-yellow { background: #f1c40f; }
+    #flag-green { background: #2ecc71; }
+
+    .flag.selected {
+      border-color: #000;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .progress-container {
+      text-align: center;
+    }
+
+    .progress-label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 15px;
+      border-radius: 10px;
+      background: #ddd;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #e74c3c, #f1c40f, #2ecc71);
+      transition: width 0.5s ease-in-out;
+    }
+
+    #percent {
+      margin-top: 8px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h2>Privacy Risk Scanner</h2>
+
+  <div class="flags">
+    <div id="flag-red" class="flag" title="High Risk"></div>
+    <div id="flag-yellow" class="flag" title="Moderate Risk"></div>
+    <div id="flag-green" class="flag" title="Low Risk"></div>
+  </div>
+
+  <div class="progress-container">
+    <span class="progress-label">Website Safety</span>
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+    <div id="percent">0%</div>
+  </div>
+
+  <script>
+    // placeholder interactivity — you can connect your backend later
+    const flags = document.querySelectorAll('.flag');
+    const progress = document.getElementById('progress-fill');
+    const percentText = document.getElementById('percent');
+
+    flags.forEach(flag => {
+      flag.addEventListener('click', () => {
+        flags.forEach(f => f.classList.remove('selected'));
+        flag.classList.add('selected');
+
+        if (flag.id === 'flag-red') updateBar(20);
+        else if (flag.id === 'flag-yellow') updateBar(60);
+        else updateBar(90);
+      });
+    });
+
+    function updateBar(value) {
+      progress.style.width = value + '%';
+      percentText.textContent = value + '%';
+    }
+  </script>
+</body>
 </html>
